@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제너럴 밸런스 알티지 플러스</title>
+    
+    <!-- Open Graph / Social Media Sharing Tags -->
+    <meta property="og:title" content="제너럴 밸런스 알티지 플러스">
+    <meta property="og:description" content="18년 제너럴바이오의 집념이 만든 차세대 rTG 오메가3 플러스">
+    <meta property="og:image" content="images/알티지오메가3 (22).png">
+    <meta property="og:type" content="website">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+        .section-padding { padding: 100px 20px; }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .bg-navy { background-color: #001a3d; }
+        .text-blue-gb { color: #0056b3; }
+        .bg-blue-gb { background-color: #0056b3; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .check-list i { color: #0056b3; margin-right: 10px; }
+        
+        /* Kakao Floating Button */
+        .kakao-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #FEE500;
+            color: #3C1E1E;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        .kakao-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.85);
+            padding-top: 20px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: none;
+            width: 95%;
+            max-width: 800px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            color: #333;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2100;
+        }
+        .close-modal:hover { color: #0056b3; }
+
+        /* Review Star Style */
+        .star-rating { color: #fbbf24; }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+    <!-- Kakao Talk Floating Button -->
+    <a href="http://pf.kakao.com/_vXxnQn/chat" target="_blank" class="kakao-float" title="카카오톡 상담하기">
+        <i class="fas fa-comment"></i>
+    </a>
+
+    <!-- Modal for Ingredients -->
+    <div id="ingredientsModal" class="modal" onclick="closeModalOnOutsideClick(event, 'ingredientsModal')">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('ingredientsModal')">&times;</span>
+            <div class="p-4">
+                <h3 class="text-2xl font-bold mb-4 text-center border-b pb-4">제품 성분표 및 영양정보</h3>
+                <div class="overflow-hidden rounded-xl text-center">
+                    <img src="images/알티지오메가3 (2).jpg" alt="제품 성분표" class="inline-block w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Q&A -->
+    <div id="qaModal" class="modal" onclick="closeModalOnOutsideClick(event, 'qaModal')">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('qaModal')">&times;</span>
+            <div class="p-4">
+                <h3 class="text-2xl font-bold mb-4 text-center border-b pb-4">자주 묻는 질문 (Q&A)</h3>
+                <div class="overflow-hidden rounded-xl text-center">
+                    <img src="images/알티지오메가3 (15).jpg" alt="Q&A 상세정보" class="inline-block w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Delivery Info -->
+    <div id="deliveryModal" class="modal" onclick="closeModalOnOutsideClick(event, 'deliveryModal')">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('deliveryModal')">&times;</span>
+            <div class="p-4">
+                <h3 class="text-2xl font-bold mb-4 text-center border-b pb-4">배송/교환/반품 안내</h3>
+                <div class="overflow-hidden rounded-xl text-center">
+                    <img src="images/배송정보_1.jpg" alt="배송 정보" class="inline-block w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1: Hero (Intro) -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+        <div class="absolute inset-0 z-0">
+            <img src="images/알티지오메가3 (22).png" alt="Main Concept" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-white"></div>
+        </div>
+        <div class="relative z-10 text-center px-4">
+            <p class="text-blue-400 font-bold tracking-[0.3em] mb-4 fade-in uppercase text-sm md:text-base">Premium Health Solution</p>
+            <h1 class="text-5xl md:text-7xl font-black text-white leading-tight mb-8 fade-in">
+                먹는 것보다 중요한 것은<br><span class="text-blue-400">몸속 흡수율</span>입니다
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-200 font-light fade-in">
+                18년 제너럴바이오의 집념이 만든<br>차세대 rTG 오메가3 플러스
+            </p>
+            <div class="mt-12 fade-in flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#solution" class="bg-blue-600 text-white px-10 py-4 rounded-full font-bold hover:bg-blue-700 transition-all shadow-xl text-center">제품 자세히 보기</a>
+                <a href="#purchase" class="bg-white text-blue-600 px-10 py-4 rounded-full font-bold hover:bg-gray-100 transition-all shadow-xl text-center">지금 바로 구매</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section: Pain Point Bridge Image -->
+    <section class="bg-white fade-in text-center">
+        <div class="max-w-4xl mx-auto px-4 pt-16">
+            <img src="images/알티지오메가3(30).jpg" alt="고민 시각화" class="w-full h-auto rounded-3xl shadow-sm">
+        </div>
+    </section>
+
+    <!-- Section 2: Pain Point (Problem) -->
+    <section class="section-padding bg-white">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-black mb-16 fade-in">혹시 이런 고민을 하고 계신가요?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="p-8 rounded-3xl bg-gray-50 fade-in border border-gray-100">
+                    <img src="images/알티지오메가3 (29).png" alt="Fatigue" class="w-full h-48 object-cover rounded-2xl mb-6">
+                    <p class="font-bold text-lg mb-2">"아침마다 몸이 무겁고 피곤해요"</p>
+                    <p class="text-gray-500 text-sm">불규칙한 식습관으로 인한 혈행 건강 저하</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-gray-50 fade-in border border-gray-100">
+                     <img src="images/스마트폰.png" alt="eye" class="w-full h-48 object-cover rounded-2xl mb-6">
+                    <p class="font-bold text-lg mb-2">"스마트폰 때문인지 눈이 뻑뻑해요"</p>
+                     <p class="text-gray-500 text-sm">건조한 눈 개선을 위한 영양 공급 부족</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-gray-50 fade-in border border-gray-100">
+                   <img src="images/많은영양제.jpg" alt="many" class="w-full h-48 object-cover rounded-2xl mb-6">
+                    <p class="font-bold text-lg mb-2">"영양제를 챙겨 먹기 너무 번거로워요"</p>
+                    <p class="text-gray-500 text-sm">오메가3 따로, 비타민 따로 챙기기 힘든 일상</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Solution (Product Intro) -->
+    <section id="solution" class="section-padding bg-gray-50">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="flex-1 fade-in">
+                <img src="images/알티지오메가3 (38).png" alt="rTG Plus Bottle" class="w-full rounded-[40px] shadow-2xl">
+            </div>
+            <div class="flex-1 fade-in">
+                <span class="bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-bold mb-4 inline-block">PREMIUM ALL-IN-ONE</span>
+                <h2 class="text-4xl md:text-5xl font-black leading-tight mb-8">
+                    비우고 채우는<br>단 하나의 습관
+                </h2>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-blue-100 p-3 rounded-xl"><i class="fas fa-vial text-blue-600"></i></div>
+                        <div>
+                            <h4 class="font-bold text-xl">3세대 rTG형 오메가3</h4>
+                            <p class="text-gray-600">불순물을 제거하고 체내 흡수율을 높인 프리미엄 원료</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-blue-100 p-3 rounded-xl"><i class="fas fa-plus-circle text-blue-600"></i></div>
+                        <div>
+                            <h4 class="font-bold text-xl">22종 올인원 영양 배합</h4>
+                            <p class="text-gray-600">비타민 13종 + 미네랄 9종을 한 캡슐에</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-blue-100 p-3 rounded-xl"><i class="fas fa-shield-alt text-blue-600"></i></div>
+                        <div>
+                            <h4 class="font-bold text-xl">IFOS 5-Star 인증 원료</h4>
+                            <p class="text-gray-600">중금속 걱정 없는 엄격한 품질 관리</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: USP 1 - Absorption (Graph) -->
+    <section class="section-padding bg-white text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-black mb-8 fade-in">과학적으로 입증된 <span class="text-blue-600">흡수율의 차이</span></h2>
+            <p class="text-gray-600 mb-12 fade-in">아무리 좋은 오메가3라도 흡수되지 않으면 소용없습니다.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <img src="images/알티지오메가3 (8).jpg" alt="Absorption Comparison" class="w-full rounded-2xl shadow-lg fade-in">
+                <div class="text-left space-y-6 fade-in">
+                    <div class="border-l-4 border-blue-600 pl-6">
+                        <h4 class="font-bold text-xl mb-2 italic">Why rTG?</h4>
+                        <p class="text-gray-600">글리세롤에 불포화지방산 3개가 결합된 자연의 구조 그대로! 생체 이용률이 가장 높습니다.</p>
+                    </div>
+                    <img src="images/알티지오메가3 (39).png" alt="Structure" class="w-full rounded-xl border border-gray-100">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Brand Identity (General Bio) -->
+    <section class="section-padding bg-navy text-white overflow-hidden">
+        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+            <div class="flex-1 fade-in">
+                <p class="text-blue-400 font-bold mb-4">제너럴바이오(주)</p>
+                <h2 class="text-4xl md:text-5xl font-black mb-8 leading-tight">
+                    당신의 건강을 책임질<br>18년의 압도적 신뢰
+                </h2>
+                <div class="grid grid-cols-2 gap-6 mb-10">
+                    <div class="bg-white/10 p-6 rounded-2xl">
+                        <p class="text-3xl font-black text-blue-400 mb-2">B-Corp</p>
+                        <p class="text-sm text-gray-300 uppercase tracking-widest">Global Certification</p>
+                    </div>
+                    <div class="bg-white/10 p-6 rounded-2xl">
+                        <p class="text-3xl font-black text-blue-400 mb-2">18년 역사</p>
+                        <p class="text-sm text-gray-300 uppercase tracking-widest">Manufacturing Expertise</p>
+                    </div>
+                </div>
+                <ul class="space-y-4 check-list text-gray-300">
+                    <li><i class="fas fa-check text-blue-400"></i> 전 세계가 인정한 글로벌 비콥(B Corp) 인증 기업</li>
+                    <li><i class="fas fa-check text-blue-400"></i> 대한민국을 대표하는 자랑스러운 사회적 기업</li>
+                    <li><i class="fas fa-check text-blue-400"></i> 인체와 환경에 안전한 원료사용, EWG 그린 등급 기준 추구</li>
+                    <li><i class="fas fa-check text-blue-400"></i> GMP/ISO 인증을 통한 최첨단 제조 시설 관리</li>
+                    <li><i class="fas fa-check text-blue-400"></i> 제너럴바이오 우수기업연구소 인증/ APAC 바이오테크 10대기업 선정</li>
+                </ul>
+            </div>
+            <div class="flex-1 fade-in relative">
+                <img src="images/알티지오메가3 (28).jpg" alt="General Bio Factory" class="w-full rounded-[30px] shadow-2xl">
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Nutritional Facts (Table) -->
+    <section class="section-padding bg-white text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-black mb-16 fade-in">더 이상 영양제 쇼핑에<br>돈과 시간을 낭비하지 마세요.</h2>
+            <img src="images/알티지오메가3 (23).jpg" alt="Nutrition Table" class="w-full rounded-2xl shadow-sm border border-gray-100 fade-in">
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 fade-in">
+                <div class="p-4 bg-blue-50 rounded-xl">
+                    <p class="text-blue-600 font-bold">비타민 13종</p>
+                    <p class="text-xs text-gray-500">에너지 대사 및 활력</p>
+                </div>
+                <div class="p-4 bg-blue-50 rounded-xl">
+                    <p class="text-blue-600 font-bold">미네랄 9종</p>
+                    <p class="text-xs text-gray-500">정상적인 면역기능</p>
+                </div>
+                <div class="p-4 bg-blue-50 rounded-xl">
+                    <p class="text-blue-600 font-bold">EPA 및 DHA</p>
+                    <p class="text-xs text-gray-500">혈행 및 기억력 개선</p>
+                </div>
+                <div class="p-4 bg-blue-50 rounded-xl">
+                    <p class="text-blue-600 font-bold">루테인 배합</p>
+                    <p class="text-xs text-gray-500">눈 건강 복합 관리</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Detail & Quality -->
+    <section class="section-padding bg-gray-50">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="flex-1 fade-in text-left">
+                    <img src="images/알티지오메가3 (27).jpg" alt="Capsule Detail" class="w-full rounded-3xl shadow-lg">
+                </div>
+                <div class="flex-1 fade-in text-left">
+                    <h3 class="text-3xl font-black mb-6">목 넘김까지 배려한<br>기술의 디테일</h3>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        좋은 성분을 담는 것만큼 중요한 것은 꾸준히 먹는 즐거움입니다.<br>
+                        특수 코팅 기술을 통해 오메가3 특유의 어취를 줄이고,<br>
+                        부드러운 연질 캡슐로 설계하여 누구나 편하게 섭취할 수 있습니다.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <img src="images/알티지오메가3 (8).png" alt="Quality 1" class="rounded-xl">
+                        <img src="images/알티지오메가3 (17).jpg" alt="Quality 2" class="rounded-xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Sub-Ingredients -->
+    <section class="bg-white fade-in text-center">
+        <div class="max-w-4xl mx-auto px-4 pt-16">
+            <img src="images/부원료.jpg" alt="부원료 정보" class="w-full h-auto rounded-3xl shadow-sm">
+        </div>
+    </section>
+
+    <!-- Section: Recommended Target Image -->
+    <section class="bg-white fade-in text-center">
+        <div class="max-w-4xl mx-auto px-4 pt-16">
+            <img src="images/권장대상.jpg" alt="권장 대상" class="w-full h-auto rounded-3xl shadow-sm">
+        </div>
+    </section>
+
+    <!-- Section 8: Who Needs This? -->
+    <section class="section-padding bg-white">
+        <div class="max-w-4xl mx-auto bg-blue-600 rounded-[40px] p-12 text-white shadow-2xl fade-in">
+            <h2 class="text-3xl font-bold text-center mb-12">이런 분들께 강력 추천합니다!</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl">
+                    <i class="fas fa-check-circle text-blue-200"></i>
+                    <p>회식과 육류 섭취가 잦은 직장인</p>
+                </div>
+                <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl">
+                    <i class="fas fa-check-circle text-blue-200"></i>
+                    <p>눈의 건조함과 피로를 자주 느끼시는 분</p>
+                </div>
+                <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl">
+                    <i class="fas fa-check-circle text-blue-200"></i>
+                    <p>여러 영양제를 챙겨 먹기 번거로우신 분</p>
+                </div>
+                <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl">
+                    <i class="fas fa-check-circle text-blue-200"></i>
+                    <p>혈행 개선과 활력 증진이 동시에 필요한 분</p>
+                </div>
+                <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl">
+                    <i class="fas fa-check-circle text-blue-200"></i>
+                    <p>믿을 수 있는 제조사의 제품을 찾으시는 분</p>
+                </div>
+                <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl">
+                    <i class="fas fa-check-circle text-blue-200"></i>
+                    <p>가족의 건강을 한 번에 챙기고 싶은 분</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Real Customer Reviews -->
+    <section class="section-padding bg-gray-50">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="mb-16">
+                <h2 class="text-3xl md:text-4xl font-black mb-4 fade-in">진짜가 말하는 <span class="text-blue-600">진짜 후기</span></h2>
+                <p class="text-gray-500 fade-in">이미 많은 분들이 알티지 플러스로 건강한 변화를 경험하고 계십니다.</p>
+            </div>
+            
+            <!-- Review Image Box (2x2 Grid) -->
+            <div class="bg-white p-6 rounded-[40px] shadow-xl mb-12 fade-in mx-auto max-w-4xl">
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="images/알티지오메가3 (10).png" alt="Review 1" class="w-full h-auto rounded-2xl object-cover">
+                    <img src="images/알티지오메가3 (32).png" alt="Review 2" class="w-full h-auto rounded-2xl object-cover">
+                    <img src="images/알티지오메가3 (33).png" alt="Review 3" class="w-full h-auto rounded-2xl object-cover">
+                    <img src="images/알티지오메가3 (36).png" alt="Review 4" class="w-full h-auto rounded-2xl object-cover">
+                </div>
+            </div>
+
+            <!-- Text Reviews -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 text-left">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 fade-in">
+                    <div class="star-rating mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-gray-700 leading-relaxed mb-4 italic">"알티지라 그런지 속도 편하고 비린내가 전혀 안 나요. 여러 개 챙겨 먹기 귀찮았는데 이거 하나면 비타민까지 해결되니 너무 좋네요!"</p>
+                    <p class="font-bold text-sm text-gray-500">- 김*진 님 (30대 직장인)</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 fade-in">
+                    <div class="star-rating mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-gray-700 leading-relaxed mb-4 italic">"부모님 선물로 드렸는데 너무 좋아하시네요. 개별 포장이라 위생적이고 들고 다니기도 편하다고 하세요. 재구매 의사 100%입니다."</p>
+                    <p class="font-bold text-sm text-gray-500">- 박*후 님 (40대 주부)</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 fade-in">
+                    <div class="star-rating mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-gray-700 leading-relaxed mb-4 italic">"스마트폰을 많이 봐서 눈이 항상 뻑뻑했는데, 알티지 플러스 먹고 나서 확실히 건조함이 줄어든 느낌이에요. 인생 영양제 찾았습니다."</p>
+                    <p class="font-bold text-sm text-gray-500">- 이*연 님 (20대 학생)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 9: CTA (Purchase) -->
+    <section id="purchase" class="section-padding bg-white text-center">
+        <div class="max-w-3xl mx-auto">
+            <img src="images/알티지오메가3 (4).jpg" alt="Final Package" class="w-full max-w-md mx-auto mb-12 fade-in">
+            <h2 class="text-4xl font-black mb-6 fade-in">건강은 돌아오는 것이 아니라<br><span class="text-blue-600">지키는 것</span>입니다</h2>
+            <p class="text-gray-500 mb-12 fade-in font-medium">제너럴 밸런스 알티지 플러스로 오늘부터 혈행 관리를 시작하세요.</p>
+            
+            <!-- 버튼 위 가격 강조 문구 -->
+            <div class="mb-10 fade-in">
+                <p class="text-lg font-bold text-gray-500">
+                    <span class="line-through decoration-red-500 decoration-2 text-xl">소비자가 59,000원</span>
+                    <span class="mx-3 text-gray-400 text-2xl">→</span>
+                    <span class="text-blue-600 text-4xl font-black">할인가 39,000원</span>
+                </p>
+            </div>
+
+            <!-- 메인 구매 버튼 그룹 (나란히 배치 및 가격 내부 배치) -->
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-stretch fade-in px-4 mb-16">
+                <!-- 1개월분 버튼 -->
+                <a href="https://vcshop.gcoop.com/kr/nonMemberOrder?no=221&signature=9c6b1ee45343035951ee23665251cd8725315d9f10c4c509d746aaad67fc4dd5" target="_blank" class="flex-1 bg-blue-600 text-white py-6 px-4 rounded-3xl shadow-2xl hover:bg-blue-700 hover:scale-105 transition-all flex flex-col items-center justify-center min-h-[140px]">
+                    <span class="text-2xl font-black mb-2">지금 바로 구매하기</span>
+                    <span class="text-lg font-medium opacity-90 italic">1개월분 39,000원 (택배비 별도)</span>
+                </a>
+                
+                <!-- 2개월분 버튼 -->
+                <a href="https://vcshop.gcoop.com/kr/nonMemberOrder?no=245&signature=97130b6abc4bfaa1d15acea2251ba24e3bb9bfbe4b2128c8a584a625c8f2b090" target="_blank" class="flex-1 bg-navy text-white py-6 px-4 rounded-3xl shadow-2xl hover:opacity-90 hover:scale-105 transition-all flex flex-col items-center justify-center min-h-[140px]">
+                    <span class="text-2xl font-black mb-2 text-blue-400">지금 바로 구매하기</span>
+                    <span class="text-lg font-medium italic">2개월분 78,000원 (택배비 포함)</span>
+                </a>
+            </div>
+
+            <!-- 보조 버튼 섹션 (구분선 포함) -->
+            <div class="mt-12 mb-8 fade-in">
+                <hr class="border-t border-gray-200 mb-8 max-w-2xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-center gap-3 px-4 text-center">
+                    <button onclick="openModal('ingredientsModal')" class="bg-gray-800 text-white px-5 py-3 rounded-full font-bold text-sm shadow-lg hover:bg-gray-700 transition-all flex-1 md:flex-none">
+                        제품 성분표 보기
+                    </button>
+                    <button onclick="openModal('qaModal')" class="bg-white text-gray-800 px-5 py-3 rounded-full font-bold text-sm shadow-lg hover:bg-gray-50 transition-all border border-gray-300 flex-1 md:flex-none">
+                        Q & A 보러가기
+                    </button>
+                    <button onclick="openModal('deliveryModal')" class="bg-gray-100 text-gray-600 px-5 py-3 rounded-full font-bold text-sm shadow-lg hover:bg-gray-200 transition-all border border-gray-200 flex-1 md:flex-none">
+                        배송/교환/반품
+                    </button>
+                </div>
+            </div>
+
+            <p class="mt-8 text-gray-400 text-sm fade-in italic text-center">본사 직송 | 100% 정품 보장</p>
+
+            <!-- Section: Individual Packaging Image -->
+            <div class="mt-10 fade-in px-4 text-center">
+                <img src="images/개별포장.jpg" alt="개별 포장 안내" class="inline-block w-full h-auto max-w-4xl rounded-3xl shadow-sm">
+            </div>
+
+            <!-- Section: General Balance Message Image -->
+            <div class="mt-10 fade-in px-4 text-center">
+                <img src="images/제너럴밸런스메시지.jpg" alt="제너럴 밸런스 메시지" class="inline-block w-full h-auto max-w-4xl rounded-3xl shadow-sm">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-20 px-4">
+        <div class="max-w-6xl mx-auto border-b border-gray-200 pb-10">
+            <div class="text-center md:text-left">
+                <h5 class="font-bold mb-4">제너럴바이오(주)</h5>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    전라북도 남원시 소재 최첨단 GMP 제조 공장 <br>
+                    글로벌 비콥(B Corp) 인증 기업 | 사회적 기업 인증<br>
+                    <a href="http://pf.kakao.com/_vXxnQn/chat" target="_blank" class="hover:text-blue-600 transition-colors font-medium">카카오톡 채널 : 제너럴밸런스</a>
+                </p>
+                <p class="mt-4 text-xs text-gray-400">&copy; 2026 GENERAL BIO. All Rights Reserved. 본 이미지는 실제와 다를 수 있으며, 제품의 효능은 개인차가 있을 수 있습니다.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Effect
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Modal Logic
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.style.display = "flex";
+            modal.style.alignItems = "center";
+            modal.style.justifyContent = "center";
+            document.body.style.overflow = "hidden"; // 배경 스크롤 방지
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+            document.body.style.overflow = "auto"; // 스크롤 복구
+        }
+
+        // 모달 외부 클릭 시 닫기 기능
+        function closeModalOnOutsideClick(event, id) {
+            if (event.target.id === id) {
+                closeModal(id);
+            }
+        }
+    </script>
+</body>
+</html>
